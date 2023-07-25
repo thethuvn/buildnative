@@ -1,0 +1,23 @@
+name: C++ Build
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+        - name: Install Visual Studio 2008 SP1
+          run: |
+            choco install visualstudio2018professional -version 9.0.30729.4462 -y
+        - name: Set up Visual C++ build tools
+          run: |
+            "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcvarsall.bat" x86
+        - name: Build C++ project
+          run: |
+            msbuild.exe MyProject.vcxproj /property:Configuration=Release
